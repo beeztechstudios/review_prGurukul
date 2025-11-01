@@ -2,20 +2,21 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Copy, ExternalLink, Loader2, ArrowLeft } from "lucide-react";
+import { Copy, Check, Loader2, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+
 
 const MOOD_LABELS = ["Sad", "Angry", "Neutral", "Happy", "Excited"];
 const MOOD_KEYS = ["sad", "angry", "neutral", "happy", "excited"];
 
-const ReviewPage = () => {
+const ReviewReady = () => {
   const { slug, mood } = useParams();
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
   const moodLevel = parseInt(mood || "3");
 
-  // ✅ 1. Fetch business details
+  // ✅ Fetch business details
   const { data: business, isLoading: isBusinessLoading } = useQuery({
     queryKey: ["business", slug],
     queryFn: async () => {
@@ -24,7 +25,6 @@ const ReviewPage = () => {
         .select("*")
         .eq("slug", slug)
         .single();
-
       if (error) throw error;
       return data;
     },
@@ -46,149 +46,115 @@ const ReviewPage = () => {
     },
   });
 
-  // ✅ 3. Select a random review from the fetched data
+  // ✅ Get a random review based on mood level
   const getReviewFromTemplate = () => {
     if (!reviewTemplate?.moods) return null;
-
-    const moodKey = MOOD_KEYS[moodLevel - 1]; // map moodLevel → moodKey
+    const moodKey = MOOD_KEYS[moodLevel - 1];
     const reviews = reviewTemplate.moods[moodKey] || [];
-
     if (reviews.length === 0) return null;
-
     const randomIndex = Math.floor(Math.random() * reviews.length);
     return reviews[randomIndex];
   };
 
   const reviewText = getReviewFromTemplate();
 
-  const handleCopyAndProceed = async () => {
-    if (!reviewText || !business?.google_review_url) return;
-
-    try {
-      await navigator.clipboard.writeText(reviewText);
-      setCopied(true);
-      toast.success("Review copied! Redirecting to Google...");
-
-      setTimeout(() => {
-        window.location.href = business.google_review_url;
-      }, 1500);
-    } catch {
-      toast.error("Failed to copy. Please copy manually.");
-    }
+  // ✅ Copy functionality
+  const handleCopy = () => {
+    if (!reviewText) return;
+    navigator.clipboard.writeText(reviewText);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
+  // ✅ Loading state
   if (isBusinessLoading || isReviewLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#fffaf3] to-[#f8f5f0]">
+        <Loader2 className="h-10 w-10 animate-spin text-yellow-500" />
       </div>
     );
   }
 
+  // ✅ No data found
+  if (!business || !reviewTemplate) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#fffaf3] text-gray-700">
+        <h2 className="text-xl font-semibold mb-3">No Review Found</h2>
+        <p className="text-sm text-gray-500">
+          We couldn’t generate a review for this business.
+        </p>
+      </div>
+    );
+  }
+  const handleCopyAndProceed = async () => {
+      if (!reviewText || !business?.google_review_url) return;
+  
+      try {
+        await navigator.clipboard.writeText(reviewText);
+        setCopied(true);
+        toast.success("Review copied! Redirecting to Google...");
+  
+        setTimeout(() => {
+          window.location.href = business.google_review_url;
+        }, 1500);
+      } catch {
+        toast.error("Failed to copy. Please copy manually.");
+      }
+    };
+
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
-      <div className="bg-gradient-primary text-primary-foreground p-6 shadow-medium">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 mb-4 hover:opacity-80 transition-opacity"
-        >
-          <ArrowLeft className="h-5 w-5" />
-          <span>Back</span>
-        </button>
-
-        {business && (
-          <div className="flex items-center gap-4">
-            {business.logo_url && (
-              <img
-                src={business.logo_url}
-                alt={business.business_name}
-                className="h-16 w-16 object-contain bg-white rounded-xl p-2"
-              />
-            )}
-            <div>
-              <h1 className="text-2xl font-bold">{business.business_name}</h1>
-              <p className="text-primary-foreground/80">
-                Rating: {MOOD_LABELS[moodLevel - 1]}
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-2xl animate-fade-in">
-          {reviewText ? (
-            <div className="space-y-6">
-              <div className="bg-card rounded-2xl p-8 shadow-soft border border-border">
-                <h2 className="text-xl font-semibold mb-4 text-foreground">
-                  Suggested Review:
-                </h2>
-                <p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
-                  {reviewText}
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                <Button
-                  onClick={handleCopyAndProceed}
-                  size="lg"
-                  className="w-full h-14 text-lg bg-gradient-accent hover:opacity-90 transition-opacity"
-                  disabled={copied}
-                >
-                  {copied ? (
-                    <>
-                      <Copy className="mr-2 h-5 w-5" />
-                      Copied! Redirecting...
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="mr-2 h-5 w-5" />
-                      Copy & Proceed to Google
-                    </>
-                  )}
-                </Button>
-
-                <Button
-                  onClick={() =>
-                    window.open(business?.google_review_url, "_blank")
-                  }
-                  variant="outline"
-                  size="lg"
-                  className="w-full h-14 text-lg"
-                >
-                  <ExternalLink className="mr-2 h-5 w-5" />
-                  Go to Google Review (without copy)
-                </Button>
-              </div>
-
-              <p className="text-center text-sm text-muted-foreground">
-                You can edit the review before submitting on Google
-              </p>
-            </div>
-          ) : (
-            <div className="bg-card rounded-2xl p-8 shadow-soft border border-border text-center">
-              <p className="text-lg text-muted-foreground mb-6">
-                No review template found for this rating. Please write your own
-                review.
-              </p>
-              <Button
-                onClick={() =>
-                  window.open(business?.google_review_url, "_blank")
-                }
-                size="lg"
-                className="bg-gradient-primary"
-              >
-                <ExternalLink className="mr-2 h-5 w-5" />
-                Go to Google Review
-              </Button>
-            </div>
-          )}
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-white">
+      {/* Logo */}
+      {business.logo_url && (
+        <div className="mb-6 animate-fade-in">
+          <img
+            src={business.logo_url}
+            alt={business.business_name}
+            className=" w-[50px] mx-auto"
+          />
         </div>
+      )}
+
+      {/* Heading */}
+      <h1 className="text-2xl font-semibold text-gray-800 text-center mb-6">
+        Your review is ready!
+      </h1>
+
+      {/* Review Card */}
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-md p-5 text-center border border-gray-100 animate-fade-in">
+        <div className="flex justify-center mb-3">
+          <span className="text-yellow-400 text-xl">⭐️⭐️⭐️⭐️⭐️</span>
+        </div>
+
+        <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">
+          {reviewText || "We couldn't generate a review right now."}
+        </p>
+
+        <p className="text-[11px] mt-3 text-gray-400 italic">
+          ✨ AI-generated review suggestion
+        </p>
       </div>
+
+      {/* Submit Review Button */}
+      <button
+        onClick={handleCopyAndProceed}
+        className="mt-8 w-full max-w-md bg-gradient-to-r from-[#f5b841] to-[#f7c86a] text-gray-900 font-semibold py-3 rounded-full shadow-lg transition active:scale-95"
+      >
+        {copied ? (
+          <span className="flex justify-center items-center gap-2">
+            <Check className="h-4 w-4" /> Copied!
+          </span>
+        ) : (
+          <span className="flex justify-center items-center gap-2">
+            <Copy className="h-4 w-4" /> Submit Review
+          </span>
+        )}
+      </button>
+
+      {/* Footer */}
+      <p className="mt-8 text-xs text-gray-500">Product By : Pr.Gurukul</p>
     </div>
   );
 };
 
-export default ReviewPage;
+export default ReviewReady;
