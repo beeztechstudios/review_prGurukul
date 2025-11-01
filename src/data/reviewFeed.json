@@ -1,0 +1,185 @@
+{
+  "gym": {
+    "5": [
+      "Amazing gym! Trainers are super friendly and the equipment is top-notch.",
+      "Love the energy here — great environment to stay motivated!",
+      "Clean, well-maintained, and perfect for fitness lovers."
+    ],
+    "4": [
+      "Good gym overall, just wish there were more cardio machines.",
+      "Nice trainers and facilities, a few improvements can make it perfect."
+    ],
+    "3": [
+      "Average experience, okay for the price.",
+      "Decent place, could be better with cleaner restrooms."
+    ],
+    "2": [
+      "Not very satisfied, some equipment wasn't working properly.",
+      "Trainers seemed uninterested and support was minimal."
+    ],
+    "1": [
+      "Terrible experience, unhygienic and overcrowded.",
+      "Worst gym I've been to — poor maintenance and rude staff."
+    ]
+  },
+  "clothing": {
+    "5": [
+      "Loved the collection! Trendy styles and great quality fabrics.",
+      "Perfect fit and fast delivery — totally satisfied.",
+      "Excellent store with stylish outfits at reasonable prices!"
+    ],
+    "4": [
+      "Good designs and helpful staff. Slightly expensive but worth it.",
+      "Nice collection but limited sizes in some categories."
+    ],
+    "3": [
+      "Average experience, decent quality but not great value for money.",
+      "Okay collection, not much variety."
+    ],
+    "2": [
+      "Disappointed with the fitting and material quality.",
+      "Delivery was delayed and product didn’t match the picture."
+    ],
+    "1": [
+      "Terrible experience, very poor fabric and unhelpful staff.",
+      "Received wrong item and no proper response from store."
+    ]
+  },
+  "hardware": {
+    "5": [
+      "Great store for all hardware needs, everything available in one place!",
+      "Excellent service and genuine products at fair prices.",
+      "Highly reliable hardware shop, staff knows what they’re doing."
+    ],
+    "4": [
+      "Good experience, wide range of products.",
+      "Helpful staff but billing process could be faster."
+    ],
+    "3": [
+      "Okay experience, some items were out of stock.",
+      "Average service, not very organized but manageable."
+    ],
+    "2": [
+      "Limited stock and staff not very responsive.",
+      "Couldn’t find what I was looking for, prices on higher side."
+    ],
+    "1": [
+      "Very bad experience, sold duplicate products.",
+      "Poor customer service and overpriced items."
+    ]
+  },
+  "salon": {
+    "5": [
+      "Absolutely loved the makeover! Staff was polite and skilled.",
+      "My go-to salon, always delivers the best results!",
+      "Clean, professional and affordable — highly recommended."
+    ],
+    "4": [
+      "Nice experience, good service but waiting time was long.",
+      "Staff was good but could improve on cleanliness."
+    ],
+    "3": [
+      "Average service, okay for quick grooming.",
+      "Decent but not very professional."
+    ],
+    "2": [
+      "Didn’t like the haircut, stylist didn’t follow instructions.",
+      "Overpriced for the quality of service."
+    ],
+    "1": [
+      "Worst salon experience ever, unhygienic tools!",
+      "Rude staff and poor service, not recommended."
+    ]
+  },
+  "restaurant": {
+    "5": [
+      "Delicious food, great ambiance and friendly staff!",
+      "One of the best restaurants I’ve visited recently.",
+      "Perfect dining experience — 10/10 for food and service!"
+    ],
+    "4": [
+      "Food was tasty but service a bit slow.",
+      "Nice place to hang out, slightly pricey but worth it."
+    ],
+    "3": [
+      "Average experience, nothing special about the food.",
+      "Decent meal, but could improve on cleanliness."
+    ],
+    "2": [
+      "Food was cold and service was poor.",
+      "Didn’t enjoy the meal, flavorless dishes."
+    ],
+    "1": [
+      "Terrible food and unprofessional staff.",
+      "Worst restaurant ever, completely disappointed."
+    ]
+  },
+  "cafe": {
+    "5": [
+      "Beautiful ambience and amazing coffee!",
+      "Perfect spot to relax and work — great vibes.",
+      "Loved the desserts and staff was super friendly."
+    ],
+    "4": [
+      "Nice cafe with cozy seating, could improve on music selection.",
+      "Good place for a casual hangout."
+    ],
+    "3": [
+      "Average coffee, decent ambiance.",
+      "Okay experience, not much variety in menu."
+    ],
+    "2": [
+      "Coffee was too bitter and service was slow.",
+      "Tables weren’t clean and music was too loud."
+    ],
+    "1": [
+      "Worst cafe experience, stale food and rude staff.",
+      "Very unhygienic place, won’t visit again."
+    ]
+  },
+  "hospital": {
+    "5": [
+      "Excellent hospital with professional doctors and caring staff.",
+      "Clean, well-managed, and fast treatment process.",
+      "Great experience, felt safe and well taken care of."
+    ],
+    "4": [
+      "Good service and helpful nurses, waiting time was a bit long.",
+      "Doctors are experienced but billing takes time."
+    ],
+    "3": [
+      "Average experience, okay for minor treatments.",
+      "Facilities are decent but could be better maintained."
+    ],
+    "2": [
+      "Long waiting hours and confusing process.",
+      "Doctors were fine but support staff not helpful."
+    ],
+    "1": [
+      "Terrible management, long delays and rude staff.",
+      "Unhygienic and unprofessional — not recommended."
+    ]
+  },
+  "other": {
+    "5": [
+      "Great experience overall, very satisfied with the service.",
+      "Amazing quality and support — exceeded expectations!"
+    ],
+    "4": [
+      "Good service but can improve on delivery time.",
+      "Satisfied but minor issues could be fixed."
+    ],
+    "3": [
+      "Average experience, okay for the price.",
+      "Neither good nor bad, just okay."
+    ],
+    "2": [
+      "Not very happy, product didn’t meet expectations.",
+      "Below average service, not value for money."
+    ],
+    "1": [
+      "Worst experience, would not recommend.",
+      "Completely dissatisfied and poor quality."
+    ]
+  }
+}
